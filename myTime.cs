@@ -330,7 +330,7 @@ internal sealed class WorldTimeForm : Form
         int cardLeft = compactMode ? 12 : 22;
         int cardTop = compactMode ? 10 : 18;
         int cardWidth = newWidth - (cardLeft * 2);
-        int cardHeight = compactMode ? 48 : 104;
+        int cardHeight = compactMode ? 58 : 104;
         int cardGap = compactMode ? 8 : 12;
 
         for (int i = 0; i < clocks.Count; i++)
@@ -342,11 +342,12 @@ internal sealed class WorldTimeForm : Form
             if (compactMode)
             {
                 clock.CountryLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-                clock.CountryLabel.SetBounds(18, 12, 170, 24);
-                clock.DateLabel.Visible = false;
+                clock.CountryLabel.SetBounds(18, 5, 170, 22);
+                clock.DateLabel.Visible = true;
+                clock.DateLabel.SetBounds(18, 30, 170, 20);
                 clock.ZoneLabel.Visible = false;
                 clock.TimeLabel.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
-                clock.TimeLabel.SetBounds(188, 5, cardWidth - 204, 38);
+                clock.TimeLabel.SetBounds(188, 10, cardWidth - 204, 38);
             }
             else
             {
@@ -368,7 +369,7 @@ internal sealed class WorldTimeForm : Form
     private int GetWidgetHeight()
     {
         int headerHeight = compactMode ? 42 : 72;
-        int cardHeight = compactMode ? 48 : 104;
+        int cardHeight = compactMode ? 58 : 104;
         int gap = compactMode ? 8 : 12;
         int panelPadding = compactMode ? 20 : 36;
         int count = Math.Max(1, clockConfigs.Count);
@@ -381,13 +382,15 @@ internal sealed class WorldTimeForm : Form
     private void UpdateClocks()
     {
         DateTimeOffset utcNow = DateTimeOffset.UtcNow;
+        const string weekdays = "日一二三四五六";
 
         foreach (ClockItem clock in clocks)
         {
             DateTimeOffset localTime = TimeZoneInfo.ConvertTime(utcNow, clock.TimeZone);
             TimeSpan offset = clock.TimeZone.GetUtcOffset(utcNow.UtcDateTime);
             clock.TimeLabel.Text = localTime.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
-            clock.DateLabel.Text = localTime.ToString("ddd, MMM d", CultureInfo.InvariantCulture);
+            clock.DateLabel.Text = localTime.ToString("M月d日", CultureInfo.InvariantCulture)
+                + " 周" + weekdays[(int)localTime.DayOfWeek];
             clock.ZoneLabel.Text = clock.Place + " | " + FormatOffset(offset);
         }
     }
