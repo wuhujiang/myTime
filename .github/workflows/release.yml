@@ -1,0 +1,41 @@
+name: Release portable ZIP
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portable-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-2022
+    permissions:
+      contents: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Build and package
+        shell: powershell
+        run: .\New-Release.ps1 -Version "0.0.$env:GITHUB_RUN_NUMBER" -Force
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.0.${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: myTime 0.0.${{ github.run_number }}
+          make_latest: true
+          fail_on_unmatched_files: true
+          files: release/myTime-*-windows.zip
+          body: |
+            下载下方 Assets 中的 myTime-0.0.${{ github.run_number }}-windows.zip，完整解压后双击 myTime.exe 即可运行。
+            Source code (zip) 和 Source code (tar.gz) 为源码包，不是可直接运行的绿色版。
+            此版本由 main 分支推送自动构建，源码提交：${{ github.sha }}。
