@@ -2,4 +2,5 @@
     <color name="widget_background">#101318</color>
     <color name="widget_time">#F5F7FA</color>
     <color name="widget_place">#B8C0CC</color>
+    <color name="widget_date">#7F8997</color>
 </resources>

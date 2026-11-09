@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.widget.RemoteViews;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -52,21 +51,37 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
     }
 
     private static void updateWidget(Context context, AppWidgetManager manager, int appWidgetId) {
-        String beijingTime = formatTime("Asia/Shanghai");
-        String tindoufTime = formatTime("Africa/Algiers");
+        Calendar beijing = Calendar.getInstance(TimeZone.getTimeZone("Asia/Shanghai"));
+        Calendar tindouf = Calendar.getInstance(TimeZone.getTimeZone("Africa/Algiers"));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-        views.setTextViewText(R.id.beijing_time, beijingTime);
-        views.setTextViewText(R.id.tindouf_time, tindoufTime);
+        views.setTextViewText(R.id.beijing_date, formatDate(beijing));
+        views.setTextViewText(R.id.beijing_time, formatTime(beijing));
+        views.setTextViewText(R.id.tindouf_date, formatDate(tindouf));
+        views.setTextViewText(R.id.tindouf_time, formatTime(tindouf));
         views.setContentDescription(
                 R.id.clock_content,
-                "北京时间 " + beijingTime + "，阿尔及利亚廷杜夫 " + tindoufTime);
+                "北京时间 " + formatDate(beijing) + " " + formatTime(beijing)
+                        + "，阿尔及利亚廷杜夫 " + formatDate(tindouf) + " " + formatTime(tindouf));
         manager.updateAppWidget(appWidgetId, views);
     }
 
-    private static String formatTime(String timeZoneId) {
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone(timeZoneId));
-        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(now.getTime());
+    private static String formatTime(Calendar calendar) {
+        return String.format(
+                Locale.getDefault(),
+                "%02d:%02d",
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE));
+    }
+
+    private static String formatDate(Calendar calendar) {
+        String weekdays = "日一二三四五六";
+        return String.format(
+                Locale.CHINA,
+                "%d月%d日 周%c",
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH),
+                weekdays.charAt(calendar.get(Calendar.DAY_OF_WEEK) - 1));
     }
 
     private static void scheduleUpdates(Context context) {
