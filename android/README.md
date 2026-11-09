@@ -11,12 +11,11 @@ gradle --no-daemon :app:assembleDebug
 gradle --no-daemon :app:assembleRelease
 ```
 
-APK 输出在 `app/build/outputs/apk/`，文件名分别类似：
+APK 输出在 `app/build/outputs/apk/`，当前工作流提供使用 Android 调试签名、可以直接安装的测试包：
 
 - `two-0.1.0-debug.apk`
-- `two-0.1.0-release.apk`
 
-发布构建默认未签名，正式分发前需要使用自己的 Android 签名密钥签名。
+正式发布构建需要配置自己的 Android 签名密钥；未签名的 `release` APK 不能直接安装。
 
 ## 添加小组件
 

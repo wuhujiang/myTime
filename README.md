@@ -76,7 +76,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Build-Portable.ps1 -Output
 
 `two` 分支是一个只显示北京时间和阿尔及利亚内陆廷杜夫时间的 Android 主屏幕小组件，不包含 Windows 版的其他功能。详细构建和安装说明见 [Android 说明](android/README.md)。
 
-推送 `two` 后，Android 工作流会生成带 `two-` 前缀的 APK，例如 `two-0.0.1-release.apk`。安装后长按手机主屏幕，在小组件列表中添加“myTime 时钟”。
+推送 `two` 后，Android 工作流会生成带 `two-` 前缀的可安装测试 APK，例如 `two-0.0.1-debug.apk`。安装后长按手机主屏幕，在小组件列表中添加“myTime 时钟”。
 
 ## 可选：本机生成发布压缩包
 

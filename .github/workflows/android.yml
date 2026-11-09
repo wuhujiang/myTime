@@ -40,7 +40,7 @@ jobs:
 
       - name: Build APK
         working-directory: android
-        run: gradle --no-daemon -PversionName=0.0.${{ github.run_number }} :app:assembleRelease
+        run: gradle --no-daemon -PversionName=0.0.${{ github.run_number }} :app:assembleDebug
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
@@ -50,8 +50,9 @@ jobs:
           name: myTime Android 0.0.${{ github.run_number }}
           make_latest: false
           fail_on_unmatched_files: true
-          files: android/app/build/outputs/apk/release/two-*-release.apk
+          files: android/app/build/outputs/apk/debug/two-*-debug.apk
           body: |
             这是 two 分支构建的 Android 主屏幕时钟小组件。
+            当前提供的是使用 Android 调试签名的测试 APK，可直接安装到模拟器或手机。
             安装 APK 后，在手机主屏幕的小组件列表中添加“myTime 时钟”。
             源码提交：${{ github.sha }}。
