@@ -1,6 +1,6 @@
 # 推送到 GitHub 后自动发布绿色版
 
-工作流位于 `.github/workflows/release.yml`。**每次推送到 `main` 分支，GitHub Actions 都会自动编译、生成 ZIP，并发布到 Releases。** 不需要手动打标签、上传附件或安装 GitHub CLI。
+工作流位于 `.github/workflows/release.yml`。**每次推送到 `dev` 分支，GitHub Actions 都会自动编译 Windows 绿色版、生成 ZIP，并发布到 Releases。** Android 版本由 `.github/workflows/android.yml` 负责，在 `two` 分支推送时构建 APK。不需要手动打标签、上传附件或安装 GitHub CLI。
 
 项目仓库为 [wuhujiang/myTime](https://github.com/wuhujiang/myTime)，Git 远程地址为 `git@github.com:wuhujiang/myTime.git`。
 
@@ -8,7 +8,7 @@
 
 ## 首次提交与推送
 
-当前本地仓库已使用 `main` 分支，并已将 `origin` 关联到 `git@github.com:wuhujiang/myTime.git`，无需重复初始化或添加远程。
+当前本地仓库已使用 `dev` 分支，并已将 `origin` 关联到 `git@github.com:wuhujiang/myTime.git`，无需重复初始化或添加远程。
 
 在项目根目录打开 PowerShell，先检查分支、待提交文件和远程地址：
 
@@ -17,12 +17,12 @@ git status
 git remote -v
 ```
 
-确认当前分支为 `main`、`origin` 地址与上文一致后，提交并推送：
+确认当前分支为 `dev`、`origin` 地址与上文一致后，提交并推送：
 
 ```powershell
 git add .
 git commit -m "Prepare myTime portable release"
-git push -u origin main
+git push -u origin dev
 ```
 
 推送使用 SSH，需要本机的 SSH 密钥已配置到有仓库写入权限的 GitHub 账号。
@@ -49,7 +49,7 @@ git push
 
 自动版本号为 `0.0.N`，其中 `N` 是该工作流的运行编号，例如 `myTime-0.0.1-windows.zip`。每次成功执行都会发布对应版本，并将其设为 Latest；ZIP 对应本次推送的源码提交。程序 EXE 的内部版本信息不随此编号变化。
 
-只有推送到 `main` 才会自动发布。如果使用其他默认分支，请同步修改工作流中的 `branches`。工作流也支持在 Actions 页面选择 **Run workflow** 手动执行；重新运行同一次工作流会更新同一版本的附件。密集推送时，GitHub 并发队列可能合并尚未开始的任务，以最新待运行提交为准。
+Windows 版本只有推送到 `dev` 才会自动发布。Android 版本推送到 `two` 后由独立工作流自动发布 APK。工作流也支持在 Actions 页面选择 **Run workflow** 手动执行；重新运行同一次工作流会更新同一版本的附件。密集推送时，GitHub 并发队列可能合并尚未开始的任务，以最新待运行提交为准。
 
 如果失败，打开 Actions 中失败步骤的日志，修复后再次提交并推送即可。ZIP 在构建和压缩包检查通过后才会上传。GitHub 上的自动发布效果需要首次推送后确认。
 

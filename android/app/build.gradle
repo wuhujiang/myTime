@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.mytime.android'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.mytime.android'
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName project.findProperty('versionName') ?: '0.1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "two-${defaultConfig.versionName}-${variant.name}.apk"
+        }
+    }
+}

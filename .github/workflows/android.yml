@@ -1,0 +1,55 @@
+name: Release Android widget
+
+on:
+  push:
+    branches:
+      - two
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-widget-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
+
+      - name: Build APK
+        working-directory: android
+        run: gradle --no-daemon -PversionName=0.0.${{ github.run_number }} :app:assembleRelease
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: two-v0.0.${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: myTime Android 0.0.${{ github.run_number }}
+          make_latest: false
+          fail_on_unmatched_files: true
+          files: android/app/build/outputs/apk/release/two-*-release.apk
+          body: |
+            这是 two 分支构建的 Android 主屏幕时钟小组件。
+            安装 APK 后，在手机主屏幕的小组件列表中添加“myTime 时钟”。
+            源码提交：${{ github.sha }}。

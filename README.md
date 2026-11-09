@@ -1,6 +1,8 @@
-# myTime for Windows
+# myTime
 
-一个绿色版 Windows 桌面时区时钟，默认显示洛杉矶和北京的时间，支持秒数、窗口置顶和托盘隐藏。每个城市名称下方显示当地的月、日和星期，例如“11月3日 周一”。各行的日期和时间对应同一时刻，分别按各自时区换算、跨日更新，不受电脑本地时区设置影响。
+Windows 版本与 Android 版本分别维护在不同分支：`dev` 分支发布 Windows 绿色版，`two` 分支发布 Android 主屏幕时钟小组件。
+
+Windows 绿色版默认显示洛杉矶和北京的时间，支持秒数、窗口置顶和托盘隐藏。每个城市名称下方显示当地的月、日和星期，例如“11月3日 周一”。各行的日期和时间对应同一时刻，分别按各自时区换算、跨日更新，不受电脑本地时区设置影响。
 
 ![myTime 界面预览：洛杉矶和北京分别显示当地日期、星期和时间](assets/screenshot.png)
 
@@ -64,11 +66,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Build-Portable.ps1 -Output
 
 ## 推送到 GitHub 自动发布
 
-项目已包含 GitHub Actions 工作流。**每次推送到 `main` 分支，GitHub 都会自动构建绿色版 ZIP，并发布到 Releases。** 无需手动打标签或上传压缩包。
+项目已包含 GitHub Actions 工作流。**推送到 `dev` 分支会自动构建 Windows 绿色版 ZIP 并发布到 Releases；推送到 `two` 分支会自动构建 Android 时钟小组件 APK 并发布到 Releases。** 无需手动打标签或上传压缩包。
 
 版本号自动使用 `0.0.N`，其中 `N` 为工作流运行编号。构建完成后，用户到 Releases 下载最新 ZIP，解压后即可运行。
 
 首次建仓库、推送命令和查看发布结果的步骤见 [GitHub 发布指南](docs/RELEASING.md)。
+
+## Android 版本
+
+`two` 分支是一个只显示北京时间和阿尔及利亚内陆廷杜夫时间的 Android 主屏幕小组件，不包含 Windows 版的其他功能。详细构建和安装说明见 [Android 说明](android/README.md)。
+
+推送 `two` 后，Android 工作流会生成带 `two-` 前缀的 APK，例如 `two-0.0.1-release.apk`。安装后长按手机主屏幕，在小组件列表中添加“myTime 时钟”。
 
 ## 可选：本机生成发布压缩包
 

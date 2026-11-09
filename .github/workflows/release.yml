@@ -1,9 +1,9 @@
-name: Release portable ZIP
+name: Release Windows portable ZIP
 
 on:
   push:
     branches:
-      - main
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -38,4 +38,4 @@ jobs:
           body: |
             下载下方 Assets 中的 myTime-0.0.${{ github.run_number }}-windows.zip，完整解压后双击 myTime.exe 即可运行。
             Source code (zip) 和 Source code (tar.gz) 为源码包，不是可直接运行的绿色版。
-            此版本由 main 分支推送自动构建，源码提交：${{ github.sha }}。
+            此版本由 dev 分支推送自动构建，源码提交：${{ github.sha }}。

@@ -1,0 +1,21 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mytime.android">
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_widget"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+        <receiver
+            android:name=".ClockWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.mytime.android.ACTION_UPDATE_CLOCK" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_widget_info" />
+        </receiver>
+    </application>
+</manifest>
