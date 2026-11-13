@@ -1,107 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clock_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_background"
-    android:padding="0dp">
+    android:orientation="vertical"
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
 
     <LinearLayout
-        android:id="@+id/clock_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingStart="12dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/beijing_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans"
-                    android:includeFontPadding="false"
-                    android:text="北京时间"
-                    android:textColor="@color/widget_place"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/beijing_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans"
-                    android:includeFontPadding="false"
-                    android:text="1月1日 周一"
-                    android:textColor="@color/widget_date"
-                    android:textSize="10sp" />
-            </LinearLayout>
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/beijing_time"
-                android:layout_width="wrap_content"
+                android:id="@+id/beijing_place"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans"
                 android:includeFontPadding="false"
-                android:text="00:00"
-                android:textColor="@color/widget_time"
-                android:textSize="22sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tindouf_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans"
-                    android:includeFontPadding="false"
-                    android:text="廷杜夫·阿尔及利亚"
-                    android:textColor="@color/widget_place"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/tindouf_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans"
-                    android:includeFontPadding="false"
-                    android:text="1月1日 周一"
-                    android:textColor="@color/widget_date"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                android:text="北京时间"
+                android:textColor="@color/widget_place"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tindouf_time"
-                android:layout_width="wrap_content"
+                android:id="@+id/beijing_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans"
                 android:includeFontPadding="false"
-                android:text="00:00"
-                android:textColor="@color/widget_time"
-                android:textSize="22sp" />
+                android:text="1月1日 周一"
+                android:textColor="@color/widget_date"
+                android:textSize="13sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/beijing_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans"
+            android:includeFontPadding="false"
+            android:text="00:00"
+            android:textColor="@color/widget_time"
+            android:textSize="30sp" />
     </LinearLayout>
-</FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tindouf_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans"
+                android:includeFontPadding="false"
+                android:text="廷杜夫·阿尔及利亚"
+                android:textColor="@color/widget_place"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tindouf_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans"
+                android:includeFontPadding="false"
+                android:text="1月1日 周一"
+                android:textColor="@color/widget_date"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tindouf_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans"
+            android:includeFontPadding="false"
+            android:text="00:00"
+            android:textColor="@color/widget_time"
+            android:textSize="30sp" />
+    </LinearLayout>
+</LinearLayout>
