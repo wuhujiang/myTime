@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">myTime</string>
     <string name="widget_name">myTime 时钟</string>
-    <string name="widget_description">主屏幕上的极简时间显示</string>
+    <string name="widget_description">咸阳与廷杜夫的当地时间及天气</string>
 </resources>

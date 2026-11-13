@@ -7,30 +7,56 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingStart="10dp"
-    android:paddingTop="6dp"
+    android:paddingTop="4dp"
     android:paddingEnd="10dp"
-    android:paddingBottom="6dp">
+    android:paddingBottom="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/beijing_place"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeStepGranularity="1sp"
-            android:fontFamily="sans"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:text="北京时间"
-            android:textColor="@color/widget_place"
-            android:textSize="16sp" />
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/xianyang_place"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeStepGranularity="1sp"
+                android:fontFamily="sans"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="咸阳"
+                android:textColor="@color/widget_place"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/xianyang_weather"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1.4"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="9sp"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeStepGranularity="1sp"
+                android:fontFamily="sans"
+                android:gravity="end|center_vertical"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="天气待更新"
+                android:textColor="@color/widget_place"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +65,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/beijing_date"
+                android:id="@+id/xianyang_date"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.35"
@@ -56,7 +82,7 @@
                 android:textSize="11sp" />
 
             <TextView
-                android:id="@+id/beijing_time"
+                android:id="@+id/xianyang_time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
@@ -78,24 +104,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tindouf_place"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeStepGranularity="1sp"
-            android:fontFamily="sans"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:text="廷杜夫·阿尔及利亚"
-            android:textColor="@color/widget_place"
-            android:textSize="16sp" />
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tindouf_place"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeStepGranularity="1sp"
+                android:fontFamily="sans"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="廷杜夫"
+                android:textColor="@color/widget_place"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tindouf_weather"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1.4"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="9sp"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeStepGranularity="1sp"
+                android:fontFamily="sans"
+                android:gravity="end|center_vertical"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="天气待更新"
+                android:textColor="@color/widget_place"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,4 +191,15 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/weather_attribution"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:gravity="end|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="天气：Open-Meteo"
+        android:textColor="@color/widget_date"
+        android:textSize="8sp" />
 </LinearLayout>

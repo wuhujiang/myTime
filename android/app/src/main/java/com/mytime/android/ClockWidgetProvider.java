@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.widget.RemoteViews;
@@ -42,34 +43,53 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         cancelUpdates(context);
+        WeatherUpdateService.cancel(context);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (ACTION_UPDATE_CLOCK.equals(intent.getAction())) {
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            ComponentName provider = new ComponentName(context, ClockWidgetProvider.class);
-            int[] appWidgetIds = manager.getAppWidgetIds(provider);
-            for (int appWidgetId : appWidgetIds) {
-                updateWidget(context, manager, appWidgetId);
-            }
+            updateAllWidgets(context);
+        }
+        if (AppWidgetManager.getInstance(context).getAppWidgetIds(
+                new ComponentName(context, ClockWidgetProvider.class)).length > 0) {
+            WeatherUpdateService.schedule(context);
+        }
+    }
+
+    static void updateAllWidgets(Context context) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        int[] ids = manager.getAppWidgetIds(new ComponentName(context, ClockWidgetProvider.class));
+        for (int id : ids) {
+            updateWidget(context, manager, id);
         }
     }
 
     private static void updateWidget(Context context, AppWidgetManager manager, int appWidgetId) {
-        Calendar beijing = Calendar.getInstance(TimeZone.getTimeZone("Asia/Shanghai"));
+        Calendar xianyang = Calendar.getInstance(TimeZone.getTimeZone("Asia/Shanghai"));
         Calendar tindouf = Calendar.getInstance(TimeZone.getTimeZone("Africa/Algiers"));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-        views.setTextViewText(R.id.beijing_date, formatDate(beijing));
-        views.setTextViewText(R.id.beijing_time, formatTime(beijing));
+        views.setTextViewText(R.id.xianyang_date, formatDate(xianyang));
+        views.setTextViewText(R.id.xianyang_time, formatTime(xianyang));
         views.setTextViewText(R.id.tindouf_date, formatDate(tindouf));
         views.setTextViewText(R.id.tindouf_time, formatTime(tindouf));
+        views.setTextViewText(R.id.xianyang_weather, WeatherRepository.summary(context, "xianyang"));
+        views.setTextViewText(R.id.tindouf_weather, WeatherRepository.summary(context, "tindouf"));
+        views.setContentDescription(R.id.xianyang_weather,
+                WeatherRepository.description(context, "xianyang"));
+        views.setContentDescription(R.id.tindouf_weather,
+                WeatherRepository.description(context, "tindouf"));
+        Intent attribution = new Intent(Intent.ACTION_VIEW, Uri.parse("https://open-meteo.com/"));
+        views.setOnClickPendingIntent(R.id.weather_attribution, PendingIntent.getActivity(
+                context, 2003, attribution, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         views.setContentDescription(
                 R.id.clock_content,
-                "北京时间 " + formatDate(beijing) + " " + formatTime(beijing)
-                        + "，阿尔及利亚廷杜夫 " + formatDate(tindouf) + " " + formatTime(tindouf));
+                "咸阳 " + formatDate(xianyang) + " " + formatTime(xianyang)
+                        + "，" + WeatherRepository.description(context, "xianyang")
+                        + "；阿尔及利亚廷杜夫 " + formatDate(tindouf) + " " + formatTime(tindouf)
+                        + "，" + WeatherRepository.description(context, "tindouf"));
         manager.updateAppWidget(appWidgetId, views);
     }
 
