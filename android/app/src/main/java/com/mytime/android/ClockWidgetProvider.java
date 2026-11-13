@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -63,7 +62,6 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
         Calendar tindouf = Calendar.getInstance(TimeZone.getTimeZone("Africa/Algiers"));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-        applyWidgetSize(context, manager, appWidgetId, views);
         views.setTextViewText(R.id.beijing_date, formatDate(beijing));
         views.setTextViewText(R.id.beijing_time, formatTime(beijing));
         views.setTextViewText(R.id.tindouf_date, formatDate(tindouf));
@@ -73,30 +71,6 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
                 "北京时间 " + formatDate(beijing) + " " + formatTime(beijing)
                         + "，阿尔及利亚廷杜夫 " + formatDate(tindouf) + " " + formatTime(tindouf));
         manager.updateAppWidget(appWidgetId, views);
-    }
-
-    private static void applyWidgetSize(Context context, AppWidgetManager manager,
-                                        int appWidgetId, RemoteViews views) {
-        int height = manager.getAppWidgetOptions(appWidgetId)
-                .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 40);
-        // Keep both two-line groups within the height supplied by the launcher.
-        float scale = height > 0 ? Math.min(1f, height / 160f) : 1f;
-        float placeSize = 20 * scale;
-        float dateSize = 16 * scale;
-        float timeSize = 30 * scale;
-        views.setTextViewTextSize(R.id.beijing_place, TypedValue.COMPLEX_UNIT_SP, placeSize);
-        views.setTextViewTextSize(R.id.tindouf_place, TypedValue.COMPLEX_UNIT_SP, placeSize);
-        views.setTextViewTextSize(R.id.beijing_date, TypedValue.COMPLEX_UNIT_SP, dateSize);
-        views.setTextViewTextSize(R.id.tindouf_date, TypedValue.COMPLEX_UNIT_SP, dateSize);
-        views.setTextViewTextSize(R.id.beijing_time, TypedValue.COMPLEX_UNIT_SP, timeSize);
-        views.setTextViewTextSize(R.id.tindouf_time, TypedValue.COMPLEX_UNIT_SP, timeSize);
-        float density = context.getResources().getDisplayMetrics().density;
-        int horizontalPadding = Math.round(14 * density);
-        int verticalPadding = Math.round(10 * scale * density);
-        int groupGap = Math.round(16 * scale * density);
-        views.setViewPadding(R.id.tindouf_group, 0, groupGap, 0, 0);
-        views.setViewPadding(R.id.clock_content, horizontalPadding, verticalPadding,
-                horizontalPadding, verticalPadding);
     }
 
     private static String formatTime(Calendar calendar) {
