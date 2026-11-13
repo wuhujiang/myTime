@@ -79,11 +79,11 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
                                         int appWidgetId, RemoteViews views) {
         int height = manager.getAppWidgetOptions(appWidgetId)
                 .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 40);
-        boolean compact = height < 64;
-        float compactScale = height > 0 && height < 48 ? height / 48f : 1f;
-        float placeSize = compact ? 10 * compactScale : 16;
-        float dateSize = compact ? 8 * compactScale : 13;
-        float timeSize = compact ? 18 * compactScale : 30;
+        // Keep both two-line groups within the height supplied by the launcher.
+        float scale = height > 0 ? Math.min(1f, height / 160f) : 1f;
+        float placeSize = 20 * scale;
+        float dateSize = 16 * scale;
+        float timeSize = 30 * scale;
         views.setTextViewTextSize(R.id.beijing_place, TypedValue.COMPLEX_UNIT_SP, placeSize);
         views.setTextViewTextSize(R.id.tindouf_place, TypedValue.COMPLEX_UNIT_SP, placeSize);
         views.setTextViewTextSize(R.id.beijing_date, TypedValue.COMPLEX_UNIT_SP, dateSize);
@@ -92,7 +92,9 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
         views.setTextViewTextSize(R.id.tindouf_time, TypedValue.COMPLEX_UNIT_SP, timeSize);
         float density = context.getResources().getDisplayMetrics().density;
         int horizontalPadding = Math.round(14 * density);
-        int verticalPadding = Math.round((compact ? 1 : 10) * density);
+        int verticalPadding = Math.round(10 * scale * density);
+        int groupGap = Math.round(16 * scale * density);
+        views.setViewPadding(R.id.tindouf_group, 0, groupGap, 0, 0);
         views.setViewPadding(R.id.clock_content, horizontalPadding, verticalPadding,
                 horizontalPadding, verticalPadding);
     }
