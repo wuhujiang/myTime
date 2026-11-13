@@ -7,7 +7,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.widget.RemoteViews;
@@ -81,9 +80,6 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
                 WeatherRepository.description(context, "xianyang"));
         views.setContentDescription(R.id.tindouf_weather,
                 WeatherRepository.description(context, "tindouf"));
-        Intent attribution = new Intent(Intent.ACTION_VIEW, Uri.parse("https://open-meteo.com/"));
-        views.setOnClickPendingIntent(R.id.weather_attribution, PendingIntent.getActivity(
-                context, 2003, attribution, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         views.setContentDescription(
                 R.id.clock_content,
                 "咸阳 " + formatDate(xianyang) + " " + formatTime(xianyang)
