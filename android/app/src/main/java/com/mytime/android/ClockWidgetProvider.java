@@ -7,7 +7,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -25,6 +27,12 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
             updateWidget(context, appWidgetManager, appWidgetId);
         }
         scheduleUpdates(context);
+    }
+
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
+                                          int appWidgetId, Bundle newOptions) {
+        updateWidget(context, appWidgetManager, appWidgetId);
     }
 
     @Override
@@ -55,6 +63,7 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
         Calendar tindouf = Calendar.getInstance(TimeZone.getTimeZone("Africa/Algiers"));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
+        applyWidgetSize(context, manager, appWidgetId, views);
         views.setTextViewText(R.id.beijing_date, formatDate(beijing));
         views.setTextViewText(R.id.beijing_time, formatTime(beijing));
         views.setTextViewText(R.id.tindouf_date, formatDate(tindouf));
@@ -64,6 +73,28 @@ public final class ClockWidgetProvider extends AppWidgetProvider {
                 "北京时间 " + formatDate(beijing) + " " + formatTime(beijing)
                         + "，阿尔及利亚廷杜夫 " + formatDate(tindouf) + " " + formatTime(tindouf));
         manager.updateAppWidget(appWidgetId, views);
+    }
+
+    private static void applyWidgetSize(Context context, AppWidgetManager manager,
+                                        int appWidgetId, RemoteViews views) {
+        int height = manager.getAppWidgetOptions(appWidgetId)
+                .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 40);
+        boolean compact = height < 64;
+        float compactScale = height > 0 && height < 48 ? height / 48f : 1f;
+        float placeSize = compact ? 10 * compactScale : 11;
+        float dateSize = compact ? 8 * compactScale : 10;
+        float timeSize = compact ? 18 * compactScale : 22;
+        views.setTextViewTextSize(R.id.beijing_place, TypedValue.COMPLEX_UNIT_SP, placeSize);
+        views.setTextViewTextSize(R.id.tindouf_place, TypedValue.COMPLEX_UNIT_SP, placeSize);
+        views.setTextViewTextSize(R.id.beijing_date, TypedValue.COMPLEX_UNIT_SP, dateSize);
+        views.setTextViewTextSize(R.id.tindouf_date, TypedValue.COMPLEX_UNIT_SP, dateSize);
+        views.setTextViewTextSize(R.id.beijing_time, TypedValue.COMPLEX_UNIT_SP, timeSize);
+        views.setTextViewTextSize(R.id.tindouf_time, TypedValue.COMPLEX_UNIT_SP, timeSize);
+        float density = context.getResources().getDisplayMetrics().density;
+        int horizontalPadding = Math.round(12 * density);
+        int verticalPadding = Math.round((compact ? 1 : 6) * density);
+        views.setViewPadding(R.id.clock_content, horizontalPadding, verticalPadding,
+                horizontalPadding, verticalPadding);
     }
 
     private static String formatTime(Calendar calendar) {
